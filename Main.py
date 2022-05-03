@@ -14,4 +14,10 @@ db = notion.databases.query(
         'database_id': os.getenv("PRIVATE_DB")  # データベースID
     }
 )
-pprint(db)
+results = db['results']
+for idx in range(len(results)):
+    is_done = results[idx]['properties']['Deadline']['select']
+    if is_done is None:
+        continue
+    print(is_done['name'])
+    print('\n')
