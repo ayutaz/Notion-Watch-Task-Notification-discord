@@ -6,7 +6,6 @@ on:
 
 jobs:
   watch-task:
-    # Ubuntuの最新版環境内で処理を実行することを指定
     runs-on: ubuntu-latest
 
     # 実行する処理＆コマンド指定
@@ -28,5 +27,4 @@ jobs:
           WORK_DB: ${{ secrets.WORK_DB }}
           TZ: "Asia/Tokyo"
         run: |
-          # 定期実行するファイルを指定。・・・③
           python Main.py
