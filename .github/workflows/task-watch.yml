@@ -20,6 +20,10 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run script
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          PRIVATE_DB: ${{ secrets.PRIVATE_DB }}
+          WORK_DB: ${{ secrets.WORK_DB }}
         run: |
           # 定期実行するファイルを指定。・・・③
           python Main.py
