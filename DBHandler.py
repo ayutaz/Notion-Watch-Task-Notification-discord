@@ -15,7 +15,7 @@ class DBHandler:
                 "filter": {
                     "and": [
                         {
-                            "property": "Deadline",
+                            "property": "期限",
                             "select": {
                                 "equals": 'Done'
                             }
