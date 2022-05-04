@@ -1,6 +1,8 @@
 name: task watch
 
-on: [ workflow_dispatch ]
+on:
+  schedule:
+    - cron: '*/30 * * * *'
 
 jobs:
   build:
