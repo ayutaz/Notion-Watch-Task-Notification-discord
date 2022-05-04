@@ -5,7 +5,7 @@ on:
     - cron: '*/30 * * * *'
 
 jobs:
-  build:
+  watch-task:
     # Ubuntuの最新版環境内で処理を実行することを指定
     runs-on: ubuntu-latest
 
