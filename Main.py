@@ -7,7 +7,7 @@ from DBHandler import DBHandler
 load_dotenv()
 
 
-def TaskWatch(db_id):
+def TaskDoneWatch(db_id):
     results = db_handler.get_done_task_db(db_id)
     for idx in range(len(results)):
         page_id = db_handler.get_page_id(results[idx])
@@ -16,5 +16,5 @@ def TaskWatch(db_id):
 
 db_handler = DBHandler(os.getenv("NOTION_TOKEN"))
 
-TaskWatch(os.getenv("PRIVATE_DB"))
-TaskWatch(os.getenv("WORK_DB"))
+TaskDoneWatch(os.getenv("PRIVATE_DB"))
+TaskDoneWatch(os.getenv("WORK_DB"))
