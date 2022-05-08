@@ -33,11 +33,21 @@
 
 ## gitHub set up
 
-5. create db for notion name - discord id. 
-Create a DB with the following dictionary type, in which the Notion display name and the discordID are linked.
+5. create db for notion name - discord id.
+   Create a DB with the following dictionary type, in which the Notion display name and the discordID are linked.
 
 ```
 USERS={"userName":"discord User ID"}
 ```
 
 7. set gitHub action secret for values
+
+Finally, the environment variables are set as follows.
+
+```
+NOTION_TOKEN='notion token'
+DB='notion db id'
+DISCORD_WEBHOOK='discord webhook url'
+DEADLINE_LIMIT_DAYS= deadline limit days(int)
+USERS={"userName":"discord User ID"}
+```
