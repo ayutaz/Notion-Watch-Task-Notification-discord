@@ -1,4 +1,4 @@
-name: watch-deadline-task
+name: watch-deadline-task-manual
 
 on: [ workflow_dispatch ]
 
