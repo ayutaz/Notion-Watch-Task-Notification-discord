@@ -23,8 +23,9 @@ jobs:
       - name: Run script
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
-          PRIVATE_DB: ${{ secrets.PRIVATE_DB }}
-          WORK_DB: ${{ secrets.WORK_DB }}
+          PRIVATE_DB: ${{ secrets.DB }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DEADLINE_LIMIT_DAYS: ${{ secrets.DEADLINE_LIMIT_DAYS }}
           TZ: "Asia/Tokyo"
         run: |
           python WatchDeadTask.py
