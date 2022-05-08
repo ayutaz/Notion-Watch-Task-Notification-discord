@@ -39,3 +39,25 @@ class DBHandler:
     @staticmethod
     def get_task_name(db_result):
         return db_result['properties']['Name']['title'][0]['plain_text']
+
+    @staticmethod
+    def get_task_deadline(db_result):
+        return db_result['properties']['期日']['date']['start']
+
+    @staticmethod
+    def get_task_manager_name(db_result):
+        req_manager_list = db_result['properties']['担当者']['people']
+        manager_list = []
+        for manager in req_manager_list:
+            manager_list.append(manager['name'])
+
+        return manager_list
+
+    @staticmethod
+    def get_task_reviewer_name(db_result):
+        req_reviewer_list = db_result['properties']['確認者']['people']
+        reviewer_list = []
+        for reviewer in req_reviewer_list:
+            reviewer_list.append(reviewer['name'])
+
+        return reviewer_list
