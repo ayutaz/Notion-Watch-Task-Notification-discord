@@ -1,8 +1,6 @@
 name: watch-deadline-task
 
-on:
-  schedule:
-    - cron: '* * 10 * *'
+on: [ workflow_dispatch ]
 
 jobs:
   watch-task:
