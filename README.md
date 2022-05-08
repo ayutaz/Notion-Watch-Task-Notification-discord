@@ -29,8 +29,8 @@
 
 ## discord set up
 
-4. get discord api
+4. get discord webhook url
 
 ## gitHub set up
 
-5. set gitHub action secret for 1 and 2 values
+5. set gitHub action secret for values
