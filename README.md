@@ -33,4 +33,11 @@
 
 ## gitHub set up
 
-5. set gitHub action secret for values
+5. create db for notion name - discord id. 
+Create a DB with the following dictionary type, in which the Notion display name and the discordID are linked.
+
+```
+USERS={"userName":"discord User ID"}
+```
+
+7. set gitHub action secret for values
