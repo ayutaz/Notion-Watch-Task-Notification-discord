@@ -10,7 +10,7 @@ class DBHandler:
         self.notion = Client(auth=self.notion_token)
         self.today = datetime.date.today()
 
-    def get_deadline_task(self, db_id: string, deadline: int):
+    def get_deadline_task(self, db_id: string, deadline: string):
         db = self.notion.databases.query(
             **{
                 'database_id': db_id,
@@ -25,7 +25,7 @@ class DBHandler:
                         {
                             "property": "期日",
                             "date": {
-                                "on_or_before": (self.today + datetime.timedelta(days=deadline)).isoformat(),
+                                "on_or_before": (self.today + datetime.timedelta(days=int(deadline))).isoformat(),
                                 "on_or_after": self.today.isoformat()
                             }
                         }
