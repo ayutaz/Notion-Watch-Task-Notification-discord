@@ -1,4 +1,5 @@
 import datetime
+import string
 
 from notion_client import Client
 
@@ -7,23 +8,25 @@ class DBHandler:
     def __init__(self, notion_token):
         self.notion_token = notion_token
         self.notion = Client(auth=self.notion_token)
+        self.today = datetime.date.today()
 
-    def get_done_task_db(self, db_id):
+    def get_deadline_task(self, db_id: string, deadline: int):
         db = self.notion.databases.query(
             **{
                 'database_id': db_id,
                 "filter": {
                     "and": [
                         {
-                            "property": "期限",
+                            "property": "ステータス",
                             "select": {
-                                "equals": 'Done'
+                                "does_not_equal": '完了'
                             }
                         },
                         {
-                            "property": "日付",
+                            "property": "期日",
                             "date": {
-                                "is_empty": True
+                                "on_or_before": (self.today + datetime.timedelta(days=deadline)).isoformat(),
+                                "on_or_after": self.today.isoformat()
                             }
                         }
 
@@ -33,28 +36,6 @@ class DBHandler:
         )
         return db['results']
 
-    def update_task_date(self, page_id):
-        today = str(datetime.datetime.now().isoformat())
-        self.notion.pages.update(
-            page_id,
-            properties={
-                '日付': {
-                    'date': {
-                        'start': today,
-                        'time_zone': 'Asia/Tokyo'
-                    }
-                }
-            }
-        )
-
-    @staticmethod
-    def get_done_date(db_result):
-        return db_result['properties']['日付']['date']
-
     @staticmethod
     def get_task_name(db_result):
-        return db_result['properties']['タスク名']['title'][0]['plain_text']
-
-    @staticmethod
-    def get_page_id(db_result):
-        return db_result['id']
+        return db_result['properties']['Name']['title'][0]['plain_text']

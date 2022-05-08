@@ -2,7 +2,7 @@ name: task watch
 
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '*/10 * * * *'
 
 jobs:
   watch-task:
@@ -27,4 +27,4 @@ jobs:
           WORK_DB: ${{ secrets.WORK_DB }}
           TZ: "Asia/Tokyo"
         run: |
-          python Main.py
+          python WatchDeadTask.py
