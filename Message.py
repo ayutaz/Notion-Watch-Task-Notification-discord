@@ -19,7 +19,6 @@ class Message:
     def mention_users_message(self, user_result):
         mention_content = ""
         for user in user_result:
-            print(user)
             mention_content += self.mention_user_message(self.user_db.get_user_id(user))
         return mention_content
 
