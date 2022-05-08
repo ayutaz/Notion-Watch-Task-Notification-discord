@@ -18,6 +18,6 @@ def WatchDeadTask(db_id):
 
 db_handler = DBHandler(os.getenv("NOTION_TOKEN"))
 user_db = UserDB()
-message = Message(db_handler, user_db)
+message = Message(db_handler, user_db,"ようさん")
 
 WatchDeadTask(os.getenv("DB"))

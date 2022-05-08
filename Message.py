@@ -1,7 +1,8 @@
 class Message:
-    def __init__(self, db_handler, user_db):
+    def __init__(self, db_handler, user_db, pdm_name):
         self.db_handler = db_handler
         self.user_db = user_db
+        self.PdM_name = pdm_name
 
     def deadLineMessage(self, result):
         manager_users = self.db_handler.get_task_manager_name(result)
@@ -12,7 +13,7 @@ class Message:
                        f"\nタスク名: {self.db_handler.get_task_name(result)}"
                        f"\n期日：{self.db_handler.get_task_deadline(result)}"
                        f"\nタスクの残り期日が3日以内です。"
-                       f"\n作業の進捗を確認して、期日以内の完了が難しければθk.に相談してください。"
+                       f"\n作業の進捗を確認して、期日以内の完了が難しければ{self.PdM_name}に相談してください。"
         }
         return content
 
