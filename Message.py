@@ -17,6 +17,12 @@ class Message:
         }
         return content
 
+    def confirm_message(self, result):
+        return "あなた宛てに確認依頼タスクが更新されました。"
+
+    def fb_message(self, result):
+        return "あなた宛てに確認FBでタスクが更新されました。"
+
     def mention_users_message(self, user_result):
         mention_content = ""
         for user in user_result:
