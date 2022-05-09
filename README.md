@@ -51,7 +51,7 @@ discordでの通知メッセージは以下のようになります。
 USERS={"userName":"discord User ID"}
 ```
 
-7. set gitHub action secret for values
+6. set gitHub action secret for values
 
 Finally, the environment variables are set as follows.
 
