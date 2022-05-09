@@ -61,4 +61,5 @@ DB='notion db id'
 DISCORD_WEBHOOK='discord webhook url'
 DEADLINE_LIMIT_DAYS= deadline limit days(int)
 USERS={"userName":"discord User ID"}
+CONFIRM_USER='user name'
 ```
