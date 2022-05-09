@@ -2,7 +2,8 @@ name: watch-deadline-task
 
 on:
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '0 1 * * *' #    UTCなので、日本時間の場合はAM10時に実行される
+  workflow_dispatch:
 
 jobs:
   watch-task:
