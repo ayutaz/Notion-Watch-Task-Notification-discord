@@ -17,7 +17,7 @@ def WatchTaskStatus():
             if db_handler.task_status(task_result) == '確認依頼':
                 requests.post(os.getenv("DISCORD_WEBHOOK"), message.confirm_message(task_result))
             elif db_handler.task_status(task_result) == '対応中':
-                requests.post(os.getenv("DISCORD_WEBHOOK"), message.confirm_message(task_result))
+                requests.post(os.getenv("DISCORD_WEBHOOK"), message.fb_message(task_result))
 
 
 db_handler = TaskDBHandler(os.getenv("NOTION_TOKEN"))
