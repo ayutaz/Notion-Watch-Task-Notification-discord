@@ -1,5 +1,6 @@
 import os
 
+import requests
 from dotenv import load_dotenv
 
 from Message import Message
@@ -10,13 +11,13 @@ load_dotenv()
 
 
 def WatchTaskStatus():
-    db = db_handler.get_change_history(5)
+    db = db_handler.get_change_history(os.getenv("GET_HISTORY_MINUS"))
     for task_result in db:
         if task_result is not None:
-            if db_handler.task_status(task_result) == '確認依頼:':
-                print(message.confirm_message("test"))
+            if db_handler.task_status(task_result) == '確認依頼':
+                requests.post(os.getenv("DISCORD_WEBHOOK"), message.confirm_message(task_result))
             elif db_handler.task_status(task_result) == '対応中':
-                print(message.fb_message("test"))
+                requests.post(os.getenv("DISCORD_WEBHOOK"), message.confirm_message(task_result))
 
 
 db_handler = TaskDBHandler(os.getenv("NOTION_TOKEN"))

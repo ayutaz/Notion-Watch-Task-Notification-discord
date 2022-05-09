@@ -10,7 +10,7 @@ class TaskDBHandler:
         self.notion = Client(auth=self.notion_token)
         self.today = datetime.date.today()
 
-    def get_change_history(self, get_history_minutes: int):
+    def get_change_history(self, get_history_minutes: string):
         now = datetime.datetime.now().astimezone(datetime.timezone.utc)
         db = self.notion.search(
             **{
@@ -28,7 +28,7 @@ class TaskDBHandler:
         history_list = []
         for history in db['results']:
             last_edited_time = datetime.datetime.fromisoformat(history['last_edited_time'].replace('Z', '+00:00'))
-            dt = now - datetime.timedelta(minutes=get_history_minutes)
+            dt = now - datetime.timedelta(minutes=int(get_history_minutes))
             if dt < last_edited_time:
                 history_list.append(history)
         return history_list
@@ -67,7 +67,8 @@ class TaskDBHandler:
     def get_task_deadline(db_result):
         return db_result['properties']['期日']['date']['start']
 
-    def task_status(self, db_result):
+    @staticmethod
+    def task_status(db_result):
         return db_result['properties']['ステータス']['select']['name']
 
     @staticmethod
@@ -82,7 +83,8 @@ class TaskDBHandler:
 
         return manager_list
 
-    def get_last_edited_time(self, db_result):
+    @staticmethod
+    def get_last_edited_time(db_result):
         return db_result['last_edited_time']
 
     @staticmethod

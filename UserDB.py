@@ -6,7 +6,8 @@ class UserDB:
     def __init__(self):
         self.users = self.add_users()
 
-    def add_users(self):
+    @staticmethod
+    def add_users():
         users = json.loads(os.getenv("USERS"))
         return users
 

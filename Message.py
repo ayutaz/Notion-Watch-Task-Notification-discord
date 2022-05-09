@@ -18,10 +18,30 @@ class Message:
         return content
 
     def confirm_message(self, result):
-        return "あなた宛てに確認依頼タスクが更新されました。"
+        manager_users = self.db_handler.get_task_manager_name(result)
+        review_users = self.db_handler.get_task_reviewer_name(result)
+        content = {
+            "username": "タスク確認依頼bot",
+            "content": f"{self.mention_users_message(review_users)} cc {self.mention_users_message(manager_users)} "
+                       f"\nタスク名: {self.db_handler.get_task_name(result)}"
+                       f"\n期日：{self.db_handler.get_task_deadline(result)}"
+                       f"\nあなた宛てに確認依頼タスクが更新されました。"
+                       f"\n確認をお願いします。"
+        }
+        return content
 
     def fb_message(self, result):
-        return "あなた宛てに確認FBでタスクが更新されました。"
+        manager_users = self.db_handler.get_task_manager_name(result)
+        review_users = self.db_handler.get_task_reviewer_name(result)
+        content = {
+            "username": "タスク確認FBbot",
+            "content": f"{self.mention_users_message(manager_users)} cc {self.mention_users_message(review_users)} "
+                       f"\nタスク名: {self.db_handler.get_task_name(result)}"
+                       f"\n期日：{self.db_handler.get_task_deadline(result)}"
+                       f"\nあなた宛てに確認FBでタスクが更新されました。"
+                       f"\n確認、対応をお願いします。"
+        }
+        return content
 
     def mention_users_message(self, user_result):
         mention_content = ""
@@ -29,5 +49,6 @@ class Message:
             mention_content += self.mention_user_message(self.user_db.get_user_id(user))
         return mention_content
 
-    def mention_user_message(self, user_id):
+    @staticmethod
+    def mention_user_message(user_id):
         return f"<@{user_id}>"
