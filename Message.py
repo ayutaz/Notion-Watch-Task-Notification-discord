@@ -9,7 +9,7 @@ class Message:
         review_users = self.db_handler.get_task_reviewer_name(result)
         content = {
             "username": "期日が迫っているタスク通知bot",
-            "content": f"{self.mention_users_message(manager_users)} cc @{self.mention_users_message(review_users)} "
+            "content": f"{self.mention_users_message(manager_users)} cc {self.mention_users_message(review_users)} "
                        f"\nタスク名: {self.db_handler.get_task_name(result)}"
                        f"\n期日：{self.db_handler.get_task_deadline(result)}"
                        f"\nタスクの残り期日が3日以内です。"
