@@ -63,3 +63,12 @@ DEADLINE_LIMIT_DAYS= deadline limit days(int)
 USERS={"userName":"discord User ID"}
 CONFIRM_USER='user name'
 ```
+
+そのほかの情報として、NotionのDBは以下の画像ように設定する必要があります。しかし、すべての情報が必要ではありません。
+このプログラムを動かすためには、`担当者`、`確認者` 、`期日` 、`preStatus`があれば動きます。
+( `preStatus` は内部処理用の疑似的な変数として使っています)
+
+For other information, Notion's DB must be set up as shown in the following image. However, not all information is required.
+To run this program, all you need is the `person in charge`, `confirmation person`, `due date`, and `preStatus`.
+(I use `preStatus` as a pseudo variable for internal processing)
+![](docs/NotionDB.png)
