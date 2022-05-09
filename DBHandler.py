@@ -49,7 +49,10 @@ class DBHandler:
         req_manager_list = db_result['properties']['担当者']['people']
         manager_list = []
         for manager in req_manager_list:
-            manager_list.append(manager['name'])
+            try:
+                manager_list.append(manager['name'])
+            except KeyError:
+                print('no name in manager')
 
         return manager_list
 
@@ -58,6 +61,9 @@ class DBHandler:
         req_reviewer_list = db_result['properties']['確認者']['people']
         reviewer_list = []
         for reviewer in req_reviewer_list:
-            reviewer_list.append(reviewer['name'])
+            try:
+                reviewer_list.append(reviewer['name'])
+            except KeyError:
+                print('no name in reviewer')
 
         return reviewer_list
