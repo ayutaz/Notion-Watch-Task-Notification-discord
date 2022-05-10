@@ -28,6 +28,7 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           DEADLINE_LIMIT_DAYS: ${{ secrets.DEADLINE_LIMIT_DAYS }}
           USERS: ${{ secrets.USERS }}
+          CONFIRM_USERS: ${{ secrets.CONFIRM_USERS }}
           TZ: "Asia/Tokyo"
         run: |
           python WatchDeadTask.py
