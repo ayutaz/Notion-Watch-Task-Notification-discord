@@ -21,7 +21,7 @@ def WatchTaskStatus():
 
 
 db_handler = TaskDBHandler(os.getenv("NOTION_TOKEN"))
-user_db = UserDB()
+user_db = UserDB(os.getenv("USERS"))
 message = Message(db_handler, user_db, os.getenv("CONFIRM_USER"))
 
 WatchTaskStatus()
