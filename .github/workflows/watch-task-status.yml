@@ -24,9 +24,7 @@ jobs:
       - name: Run script
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
-          DB: ${{ secrets.DB }}
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          DEADLINE_LIMIT_DAYS: ${{ secrets.DEADLINE_LIMIT_DAYS }}
           GET_HISTORY_MINUS: ${{ secrets.GET_HISTORY_MINUS }}
           USERS: ${{ secrets.USERS }}
           TZ: "Asia/Tokyo"
