@@ -89,7 +89,6 @@ class TaskDBHandler:
             return False
 
     def update_task_preStatus(self, page_id: str, status: str) -> None:
-        print(f"change task status to {status} : page_id = {page_id}")
         self.notion.pages.update(
             page_id,
             properties={
