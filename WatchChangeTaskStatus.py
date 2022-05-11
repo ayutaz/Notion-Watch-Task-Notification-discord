@@ -14,9 +14,9 @@ def WatchTaskStatus():
     db = db_handler.get_change_history(os.getenv("GET_HISTORY_MINUS"))
     for task_result in db:
         if task_result is not None:
-            if db_handler.task_status(task_result) == '確認依頼':
+            if db_handler.is_task_status_confirm_from_doing(task_result):
                 requests.post(os.getenv("DISCORD_WEBHOOK"), message.confirm_message(task_result))
-            elif db_handler.task_status(task_result) == '確認FB':
+            elif db_handler.is_task_status_doing_from_confirm(task_result):
                 requests.post(os.getenv("DISCORD_WEBHOOK"), message.fb_message(task_result))
 
 

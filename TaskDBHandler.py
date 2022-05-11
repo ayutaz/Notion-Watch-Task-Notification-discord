@@ -1,5 +1,4 @@
 import datetime
-import string
 
 from notion_client import Client
 
@@ -10,7 +9,7 @@ class TaskDBHandler:
         self.notion = Client(auth=self.notion_token)
         self.today = datetime.date.today()
 
-    def get_change_history(self, get_history_minutes: string):
+    def get_change_history(self, get_history_minutes: str) -> list:
         now = datetime.datetime.now().astimezone(datetime.timezone.utc)
         db = self.notion.search(
             **{
@@ -27,13 +26,14 @@ class TaskDBHandler:
         )
         history_list = []
         for history in db['results']:
-            last_edited_time = datetime.datetime.fromisoformat(history['last_edited_time'].replace('Z', '+00:00'))
+            last_edited_time = datetime.datetime.fromisoformat(
+                history['last_edited_time'].replace('Z', '+00:00'))
             dt = now - datetime.timedelta(minutes=int(get_history_minutes))
             if dt < last_edited_time:
                 history_list.append(history)
         return history_list
 
-    def get_deadline_task(self, db_id: string, deadline: string):
+    def get_deadline_task(self, db_id: str, deadline: str):
         db = self.notion.databases.query(
             **{
                 'database_id': db_id,
@@ -60,16 +60,48 @@ class TaskDBHandler:
         return db['results']
 
     @staticmethod
-    def get_task_name(db_result):
+    def get_task_name(db_result) -> str:
         return db_result['properties']['Name']['title'][0]['plain_text']
 
     @staticmethod
-    def get_task_deadline(db_result):
+    def get_task_deadline(db_result) -> dict:
         return db_result['properties']['期日']['date']['start']
 
     @staticmethod
-    def task_status(db_result):
+    def task_status(db_result) -> dict:
         return db_result['properties']['ステータス']['select']['name']
+
+    def is_task_status_doing_from_confirm(self, result) -> bool:
+        status = result['properties']['ステータス']['select']['name']
+        pre_status = result['properties']['preStatus']['select']['name']
+        if status == '対応中' and pre_status == '確認依頼':
+            self.update_task_preStatus(result['id'], status)
+            return True
+        else:
+            return False
+
+    def is_task_status_confirm_from_doing(self, result) -> bool:
+        status = result['properties']['ステータス']['select']['name']
+        if status == '確認依頼':
+            self.update_task_preStatus(result['id'], status)
+            return True
+        else:
+            return False
+
+    def update_task_preStatus(self, page_id: str, status: str) -> None:
+        print(f"change task status to {status} : page_id = {page_id}")
+        self.notion.pages.update(
+            page_id,
+            properties={
+                'preStatus':
+                    {
+                        'select':
+                            {
+                                'name': status
+                            }
+                    }
+            }
+        )
 
     @staticmethod
     def get_task_manager_name(db_result):
