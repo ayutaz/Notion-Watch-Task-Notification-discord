@@ -9,8 +9,7 @@ class TaskDBHandler:
         self.notion = Client(auth=self.notion_token)
         self.today = datetime.date.today()
 
-    def get_change_history(self, get_history_minutes: str) -> list:
-        now = datetime.datetime.now().astimezone(datetime.timezone.utc)
+    def get_change_history(self) -> list:
         db = self.notion.search(
             **{
                 "sort": {
@@ -24,14 +23,7 @@ class TaskDBHandler:
                 "page_size": 100,
             }
         )
-        history_list = []
-        for history in db['results']:
-            last_edited_time = datetime.datetime.fromisoformat(
-                history['last_edited_time'].replace('Z', '+00:00'))
-            dt = now - datetime.timedelta(minutes=int(get_history_minutes))
-            if dt < last_edited_time:
-                history_list.append(history)
-        return history_list
+        return db['results']
 
     def get_deadline_task(self, db_id: str, deadline: str):
         db = self.notion.databases.query(
@@ -44,7 +36,15 @@ class TaskDBHandler:
                             "select": {
                                 "does_not_equal": '完了'
                             }
+                        },
+                        {
+                            "property": "期日",
+                            "date": {
+                                "on_or_before": (self.today + datetime.timedelta(days=int(deadline))).isoformat(),
+                                "on_or_after": self.today.isoformat()
+                            }
                         }
+
                     ]
                 }
             }

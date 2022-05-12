@@ -11,7 +11,7 @@ load_dotenv()
 
 
 def WatchTaskStatus():
-    db = db_handler.get_change_history(os.getenv("GET_HISTORY_MINUS"))
+    db = db_handler.get_change_history()
     for task_result in db:
         if task_result is not None:
             if db_handler.is_task_status_confirm_from_doing(task_result):

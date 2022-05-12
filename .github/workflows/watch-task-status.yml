@@ -25,7 +25,6 @@ jobs:
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           DISCORD_WEBHOOK_TASK_STATUS: ${{ secrets.DISCORD_WEBHOOK_TASK_STATUS }}
-          GET_HISTORY_MINUS: ${{ secrets.GET_HISTORY_MINUS }}
           USERS: ${{ secrets.USERS }}
           TZ: "Asia/Tokyo"
         run: |
