@@ -44,15 +44,7 @@ class TaskDBHandler:
                             "select": {
                                 "does_not_equal": '完了'
                             }
-                        },
-                        {
-                            "property": "期日",
-                            "date": {
-                                "on_or_before": (self.today + datetime.timedelta(days=int(deadline))).isoformat(),
-                                "on_or_after": self.today.isoformat()
-                            }
                         }
-
                     ]
                 }
             }
