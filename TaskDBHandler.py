@@ -60,14 +60,14 @@ class TaskDBHandler:
         return db_result['properties']['Name']['title'][0]['plain_text']
 
     @staticmethod
-    def get_task_deadline(db_result) -> dict:
+    def get_task_deadline(db_result) -> str:
         if db_result['properties']['期日']['date'] is not None:
             return db_result['properties']['期日']['date']['start']
         else:
             return "期日なし"
 
     @staticmethod
-    def task_status(db_result) -> dict:
+    def task_status(db_result) -> str:
         return db_result['properties']['ステータス']['select']['name']
 
     def is_task_status_doing_from_confirm(self, result) -> bool:
