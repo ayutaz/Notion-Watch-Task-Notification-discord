@@ -64,7 +64,7 @@ class TaskDBHandler:
         if db_result['properties']['期日']['date'] is not None:
             return db_result['properties']['期日']['date']['start']
         else:
-            return None
+            return "期日なし"
 
     @staticmethod
     def task_status(db_result) -> dict:
