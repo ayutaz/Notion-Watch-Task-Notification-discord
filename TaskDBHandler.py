@@ -25,7 +25,6 @@ class TaskDBHandler:
         )
         task_list = []
         for result in db['results']:
-            print(result['properties']['ステータス']['select'])
             if result['properties']['ステータス']['select'] is not None:
                 task_list.append(result)
         return task_list
