@@ -28,6 +28,7 @@ class Message:
                        f"\nあなた宛てに確認依頼タスクが更新されました。"
                        f"\n確認をお願いします。"
         }
+        print(content)
         return content
 
     def fb_message(self, result):
