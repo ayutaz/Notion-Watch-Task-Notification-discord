@@ -23,7 +23,12 @@ class TaskDBHandler:
                 "page_size": 100,
             }
         )
-        return db['results']
+        task_list = []
+        for result in db['results']:
+            print(result['properties']['ステータス']['select'])
+            if result['properties']['ステータス']['select'] is not None:
+                task_list.append(result)
+        return task_list
 
     def get_deadline_task(self, db_id: str, deadline: str):
         db = self.notion.databases.query(
@@ -57,13 +62,17 @@ class TaskDBHandler:
 
     @staticmethod
     def get_task_deadline(db_result) -> dict:
-        return db_result['properties']['期日']['date']['start']
+        if db_result['properties']['期日']['date'] is not None:
+            return db_result['properties']['期日']['date']['start']
+        else:
+            return None
 
     @staticmethod
     def task_status(db_result) -> dict:
         return db_result['properties']['ステータス']['select']['name']
 
     def is_task_status_doing_from_confirm(self, result) -> bool:
+        print(result['properties'])
         status = result['properties']['ステータス']['select']['name']
         pre_status = result['properties']['preStatus']['select']['name']
         if status == '対応中' and pre_status == '確認依頼':
