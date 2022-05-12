@@ -25,9 +25,24 @@ class TaskDBHandler:
         )
         task_list = []
         for result in db['results']:
-            if result['properties']['ステータス']['select'] is not None:
+            if self.is_change_task_status(result):
                 task_list.append(result)
         return task_list
+
+    @staticmethod
+    def is_change_task_status(result) -> bool:
+        if result['properties']['ステータス']['select'] is None:
+            return False
+
+        if result['properties']['preStatus']['select'] is None:
+            return False
+
+        status = result['properties']['ステータス']['select']['name']
+        pre_status = result['properties']['preStatus']['select']['name']
+        if status != pre_status:
+            return True
+        else:
+            return False
 
     def get_deadline_task(self, db_id: str, deadline: str):
         db = self.notion.databases.query(
