@@ -71,7 +71,6 @@ class TaskDBHandler:
         return db_result['properties']['ステータス']['select']['name']
 
     def is_task_status_doing_from_confirm(self, result) -> bool:
-        print(result['properties'])
         status = result['properties']['ステータス']['select']['name']
         pre_status = result['properties']['preStatus']['select']['name']
         if status == '対応中' and pre_status == '確認依頼':
