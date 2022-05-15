@@ -1,8 +1,6 @@
 name: watch-task-status
 
 on:
-  schedule:
-    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 jobs:
