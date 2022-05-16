@@ -94,3 +94,5 @@ To run this program, all you need is the `person in charge`, `confirmation perso
 (I use `preStatus` as a pseudo variable for internal processing)
 
 ![](docs/NotionDB.png)
+
+# Architecture diagram
