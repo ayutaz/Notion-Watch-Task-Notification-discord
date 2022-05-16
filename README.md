@@ -96,3 +96,15 @@ To run this program, all you need is the `person in charge`, `confirmation perso
 ![](docs/NotionDB.png)
 
 # Architecture diagram
+
+```mermaid
+sequenceDiagram
+    participant cronJob as cron env
+    participant Task Function as GitHub Actions dispatch
+    participant message as Discord WebHook
+
+    cronJob ->>+ Task Function: workflowの実行
+    Task Function ->>+ message: discordへのメッセージ送信
+    message -->>- Task Function: 200
+    Task Function -->>- cronJob: 200
+```
