@@ -7,7 +7,6 @@ class Message:
     def deadLineMessage(self, result):
         manager_users = self.db_handler.get_task_manager_name(result)
         review_users = self.db_handler.get_task_reviewer_name(result)
-        task_url = self.db_handler.get_task_url(result)
         content = {
             "username": "期日が迫っているタスク通知bot",
             "content": f"{self.mention_users_message(manager_users)} cc {self.mention_users_message(review_users)} "
@@ -15,14 +14,13 @@ class Message:
                        f"\n期日：{self.db_handler.get_task_deadline(result)}"
                        f"\nタスクの残り期日が3日以内です。"
                        f"\n作業の進捗を確認して、期日以内の完了が難しければ{self.PdM_name}に相談してください。"
-                       f"\nタスクURL:{task_url}"
+                       f"\nタスクURL:{self.db_handler.get_task_url(result)}"
         }
         return content
 
     def confirm_message(self, result):
         manager_users = self.db_handler.get_task_manager_name(result)
         review_users = self.db_handler.get_task_reviewer_name(result)
-        task_url = self.db_handler.get_task_url(result)
         content = {
             "username": "タスク確認依頼bot",
             "content": f"{self.mention_users_message(review_users)} cc {self.mention_users_message(manager_users)} "
@@ -30,7 +28,7 @@ class Message:
                        f"\n期日：{self.db_handler.get_task_deadline(result)}"
                        f"\nあなた宛てに確認依頼タスクが更新されました。"
                        f"\n確認をお願いします。"
-                       f"\nタスクURL:{task_url}"
+                       f"\nタスクURL:{self.db_handler.get_task_url(result)}"
         }
         print(content)
         return content
@@ -45,6 +43,7 @@ class Message:
                        f"\n期日：{self.db_handler.get_task_deadline(result)}"
                        f"\nあなた宛てに確認FBでタスクが更新されました。"
                        f"\n確認、対応をお願いします。"
+                       f"\nタスクURL:{self.db_handler.get_task_url(result)}"
         }
         return content
 
