@@ -143,3 +143,7 @@ class TaskDBHandler:
                 print('no name in reviewer')
 
         return reviewer_list
+
+    @staticmethod
+    def get_task_url(db_result):
+        return db_result['url']
