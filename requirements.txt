@@ -1,4 +1,4 @@
 notion-client==1.0.0
-python-dotenv==0.20.0
+python-dotenv==1.2.2
 requests~=2.27.1
 
