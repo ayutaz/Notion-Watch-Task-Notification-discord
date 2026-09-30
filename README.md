@@ -48,7 +48,7 @@ discordでの通知メッセージは以下のようになります。
 
 # requirements
 
-* Python 3.9
+* Python 3.12
 * [notion-client](https://github.com/ramnes/notion-sdk-py) :for python notion api wrapper
 
 # setup
@@ -81,10 +81,18 @@ Finally, the environment variables are set as follows.
 NOTION_TOKEN='notion token'
 DB='notion db id'
 DISCORD_WEBHOOK='discord webhook url'
-DEADLINE_LIMIT_DAYS= deadline limit days(int)
+DISCORD_WEBHOOK_TASK_STATUS='discord webhook url for task status notification'
+DEADLINE_LIMIT_DAYS= deadline limit days(int, default: 3)
 USERS={"userName":"discord User ID"}
 CONFIRM_USER='user name'
 ```
+
+| workflow | script | secrets |
+| --- | --- | --- |
+| `watch-deadline-task` | `WatchDeadTask.py` | `NOTION_TOKEN`, `DB`, `DISCORD_WEBHOOK`, `DEADLINE_LIMIT_DAYS`, `USERS`, `CONFIRM_USER` |
+| `watch-task-status` | `WatchChangeTaskStatus.py` | `NOTION_TOKEN`, `DISCORD_WEBHOOK_TASK_STATUS`, `USERS` |
+
+Enable the workflows in the Actions tab of your fork (scheduled workflows are disabled automatically after 60 days without repository activity).
 
 7. About Periodic Execution
 
@@ -110,4 +118,11 @@ sequenceDiagram
     Task Function ->>+ message: discordへのメッセージ送信
     message -->>- Task Function: 200
     Task Function -->>- cronJob: 200
+```
+
+# development
+
+```
+pip install -r requirements.txt
+python -m unittest discover -s tests -v
 ```
