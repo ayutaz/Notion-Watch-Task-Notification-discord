@@ -1,8 +1,9 @@
 class Message:
-    def __init__(self, db_handler, user_db, pdm_name):
+    def __init__(self, db_handler, user_db, pdm_name, deadline_days="3"):
         self.db_handler = db_handler
         self.user_db = user_db
         self.PdM_name = pdm_name
+        self.deadline_days = deadline_days
 
     def deadLineMessage(self, result):
         manager_users = self.db_handler.get_task_manager_name(result)
@@ -12,7 +13,7 @@ class Message:
             "content": f"{self.mention_users_message(manager_users)} cc {self.mention_users_message(review_users)} "
                        f"\nタスク名: {self.db_handler.get_task_name(result)}"
                        f"\n期日：{self.db_handler.get_task_deadline(result)}"
-                       f"\nタスクの残り期日が3日以内です。"
+                       f"\nタスクの残り期日が{self.deadline_days}日以内です。"
                        f"\n作業の進捗を確認して、期日以内の完了が難しければ{self.PdM_name}に相談してください。"
                        f"\nタスクURL:{self.db_handler.get_task_url(result)}"
         }
@@ -30,7 +31,6 @@ class Message:
                        f"\n確認をお願いします。"
                        f"\nタスクURL:{self.db_handler.get_task_url(result)}"
         }
-        print(content)
         return content
 
     def fb_message(self, result):
@@ -50,7 +50,12 @@ class Message:
     def mention_users_message(self, user_result):
         mention_content = ""
         for user in user_result:
-            mention_content += self.mention_user_message(self.user_db.get_user_id(user))
+            user_id = self.user_db.get_user_id(user)
+            if user_id is None:
+                # USERSに登録されていないユーザーは<@None>にせず名前をそのまま表示する
+                mention_content += f"@{user}"
+            else:
+                mention_content += self.mention_user_message(user_id)
         return mention_content
 
     @staticmethod

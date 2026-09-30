@@ -31,48 +31,51 @@ class TaskDBHandler:
 
     @staticmethod
     def is_change_task_status(result) -> bool:
-        if result['properties']['ステータス']['select'] is None:
+        # searchはインテグレーションが参照できる全ページを返すため、
+        # タスクDB以外のページ(ステータス/preStatusプロパティが無い)は対象外にする
+        properties = result.get('properties', {})
+        status = (properties.get('ステータス') or {}).get('select')
+        pre_status = (properties.get('preStatus') or {}).get('select')
+        if status is None or pre_status is None:
             return False
 
-        if result['properties']['preStatus']['select'] is None:
-            return False
-
-        status = result['properties']['ステータス']['select']['name']
-        pre_status = result['properties']['preStatus']['select']['name']
-        if status != pre_status:
-            return True
-        else:
-            return False
+        return status['name'] != pre_status['name']
 
     def get_deadline_task(self, db_id: str, deadline: str):
-        db = self.notion.databases.query(
-            **{
-                'database_id': db_id,
-                "filter": {
-                    "and": [
-                        {
-                            "property": "ステータス",
-                            "select": {
-                                "does_not_equal": '完了'
-                            }
-                        },
-                        {
-                            "property": "期日",
-                            "date": {
-                                "on_or_before": (self.today + datetime.timedelta(days=int(deadline))).isoformat(),
-                                "on_or_after": self.today.isoformat()
-                            }
+        query = {
+            'database_id': db_id,
+            "filter": {
+                "and": [
+                    {
+                        "property": "ステータス",
+                        "select": {
+                            "does_not_equal": '完了'
                         }
+                    },
+                    {
+                        "property": "期日",
+                        "date": {
+                            "on_or_before": (self.today + datetime.timedelta(days=int(deadline))).isoformat(),
+                            "on_or_after": self.today.isoformat()
+                        }
+                    }
 
-                    ]
-                }
+                ]
             }
-        )
-        return db['results']
+        }
+        # Notion APIは1回のクエリで最大100件しか返さないため、全ページを取得する
+        results = []
+        while True:
+            db = self.notion.databases.query(**query)
+            results.extend(db['results'])
+            if not db.get('has_more') or not db.get('next_cursor'):
+                return results
+            query['start_cursor'] = db['next_cursor']
 
     @staticmethod
     def get_task_name(db_result) -> str:
-        return db_result['properties']['Name']['title'][0]['plain_text']
+        # タイトルが装飾やメンションで複数に分かれている場合も全体を連結する
+        return ''.join(text['plain_text'] for text in db_result['properties']['Name']['title'])
 
     @staticmethod
     def get_task_deadline(db_result) -> str:
